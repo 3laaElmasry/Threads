@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using ThreadsApi.Core.Entities;
 
-namespace ThreadsApi.Core.Entities
+namespace Threads.DataAccessLayer.Data1.Entities
 {
+
     public class Comment
     {
         public Guid CommentId { get; set; }
@@ -28,7 +30,7 @@ namespace ThreadsApi.Core.Entities
         public Post? Post { get; set; }
 
 
-      
+
         public String ParentId { get; set; } = String.Empty;
         [ForeignKey("ParentId")]
         public Comment? Parent { get; set; }

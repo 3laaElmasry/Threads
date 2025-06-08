@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace ThreadsApi.Core.Entities
+
+namespace Threads.DataAccessLayer.Data1.Entities
 {
     public class Post
     {
@@ -20,7 +21,6 @@ namespace ThreadsApi.Core.Entities
 
         [ForeignKey("UserId")]
         public User? User { get; set; }
-
 
         [ValidateNever]
         public IEnumerable<Comment>? Comments { get; set; }
