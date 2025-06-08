@@ -20,5 +20,10 @@ namespace Threads.DataAccessLayer.RepositoryContracts
 
         // Remove multiple entities
         void RemoveRange(IEnumerable<T> entities);
+
+        // Update Entity
+        void Update(T entity);
+
+        Task Save();
     }
 }

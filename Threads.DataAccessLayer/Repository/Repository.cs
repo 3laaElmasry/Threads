@@ -73,5 +73,15 @@ namespace Threads.DataAccessLayer.Repository
         {
             dbSet.RemoveRange(entities);
         }
+
+        public void Update(T entity)
+        {
+            dbSet.Update(entity);
+        }
+
+        public async Task Save()
+        {
+            await _db.SaveChangesAsync();
+        }
     }
 }
