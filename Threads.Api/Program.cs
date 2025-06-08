@@ -8,6 +8,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // 👈 Enables Swagger
 
+//ConncetionString 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

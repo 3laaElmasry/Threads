@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using ThreadsApi.Core.Entities;
+
 
 namespace Threads.DataAccessLayer.Data1.Entities
 {
