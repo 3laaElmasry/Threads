@@ -10,33 +10,23 @@ namespace Threads.DataAccessLayer.Data1.Entities
     {
         public Guid CommentId { get; set; }
 
-        [Required]
-        public string CommentText { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
 
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        [Required]
-        public String UserId { get; set; } = String.Empty;
+        public Guid AuthorId { get; set; }
 
-        [ForeignKey("UserId")]
-        public User? User { get; set; }
+        public Guid PostId { get; set; }
 
+        public Guid? ParentId { get; set; }
 
-        [Required]
-        public String PostId { get; set; } = String.Empty;
-
-        [ForeignKey("PostId")]
+        public ApplicationUser? Author { get; set; }
         public Post? Post { get; set; }
-
-
-
-        public String ParentId { get; set; } = String.Empty;
-        [ForeignKey("ParentId")]
         public Comment? Parent { get; set; }
 
         [ValidateNever]
-        public IEnumerable<Comment>? Children { get; set; }
+        public List<Comment>? Children { get; set; }
 
     }
 }
