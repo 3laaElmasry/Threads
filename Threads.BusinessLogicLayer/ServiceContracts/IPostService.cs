@@ -1,12 +1,11 @@
-﻿
-
-using Threads.BusinessLogicLayer.DTO;
-using Threads.DataAccessLayer.Data1.Entities;
+﻿using Threads.BusinessLogicLayer.DTO.PostDTO;
+using Threads.BusinessLogicLayer.DTO.PostExtenstions;
+using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.BusinessLogicLayer.ServiceContracts
 {
     public interface IPostService
     {
-        Task<Post> AddPost(PostDTO postDTO);
+        Task<PostResponse> AddPost(PostRequest postDTO);
     }
 }

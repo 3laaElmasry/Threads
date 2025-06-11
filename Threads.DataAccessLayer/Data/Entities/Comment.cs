@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Threads.DataAccessLayer.Data1.Entities
+namespace Threads.DataAccessLayer.Data.Entities
 {
 
     public class Comment

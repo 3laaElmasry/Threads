@@ -1,5 +1,5 @@
 ﻿
-using Threads.DataAccessLayer.Data1.Entities;
+using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.DataAccessLayer.RepositoryContracts
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Threads.BusinessLogicLayer.DTO;
+using Threads.BusinessLogicLayer.DTO.PostExtenstions;
 using Threads.BusinessLogicLayer.ServiceContracts;
 using Threads.BusinessLogicLayer.Services;
 
@@ -8,7 +8,7 @@ namespace Threads.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
@@ -19,7 +19,7 @@ namespace Threads.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostPost(PostDTO postDTO)
+        public async Task<ActionResult> PostPost(PostRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             postDTO.AuthorId = Guid.Parse(userId!);

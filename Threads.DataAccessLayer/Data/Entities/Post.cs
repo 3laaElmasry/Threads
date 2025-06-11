@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 
-namespace Threads.DataAccessLayer.Data1.Entities
+namespace Threads.DataAccessLayer.Data.Entities
 {
         public class Post
         {

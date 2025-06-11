@@ -1,7 +1,7 @@
 ﻿
 
 using Threads.DataAccessLayer.Data;
-using Threads.DataAccessLayer.Data1.Entities;
+using Threads.DataAccessLayer.Data.Entities;
 using Threads.DataAccessLayer.RepositoryContracts;
 
 namespace Threads.DataAccessLayer.Repository

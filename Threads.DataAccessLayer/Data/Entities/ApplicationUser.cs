@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace Threads.DataAccessLayer.Data1.Entities
+namespace Threads.DataAccessLayer.Data.Entities
 {
     public class ApplicationUser : IdentityUser<Guid>
     {

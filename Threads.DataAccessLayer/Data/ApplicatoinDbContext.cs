@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 using Threads.DataAccessLayer.Data.Entities;
-using Threads.DataAccessLayer.Data1.Entities;
+using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.DataAccessLayer.Data
 {
