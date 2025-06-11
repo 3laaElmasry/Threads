@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Threads.BusinessLogicLayer.ServiceContracts;
+using Threads.BusinessLogicLayer.Services;
 using Threads.DataAccessLayer.Data;
+using Threads.DataAccessLayer.Repository;
+using Threads.DataAccessLayer.RepositoryContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"));
 });
+
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+
+builder.Services.AddScoped<IPostService, PostService>();
 
 var app = builder.Build();
 

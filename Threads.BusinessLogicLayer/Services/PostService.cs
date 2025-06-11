@@ -3,6 +3,8 @@ using Threads.BusinessLogicLayer.ServiceContracts;
 using Threads.DataAccessLayer.Data.Entities;
 using Threads.DataAccessLayer.RepositoryContracts;
 using Threads.BusinessLogicLayer.DTO.PostDTO;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Identity;
 
 namespace Threads.BusinessLogicLayer.Services
 {
@@ -10,7 +12,7 @@ namespace Threads.BusinessLogicLayer.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-
+       
         public PostService(IPostRepository postRepository)
         {
             _postRepository = postRepository;
@@ -20,6 +22,9 @@ namespace Threads.BusinessLogicLayer.Services
         {
 
             var newPost = postRequest.ToPost();
+
+
+
 
             await _postRepository.AddAsync(newPost);
             await _postRepository.Save();

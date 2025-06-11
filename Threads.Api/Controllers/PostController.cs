@@ -19,10 +19,10 @@ namespace Threads.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostPost(PostRequest postDTO)
+        public async Task<ActionResult> PostCreate(PostRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            postDTO.AuthorId = Guid.Parse(userId!);
+            postDTO.AuthorId = Guid.NewGuid();
 
             var postFromDb = await _postService.AddPost(postDTO);
 
