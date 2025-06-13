@@ -9,8 +9,6 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
 
         [Required(ErrorMessage = "Post Description cann't be null")]
         public string Text { get; set; } = string.Empty;
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
 
         public Guid AuthorId { get; set; }
 

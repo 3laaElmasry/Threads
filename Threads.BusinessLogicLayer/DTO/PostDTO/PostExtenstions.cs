@@ -10,8 +10,8 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
             return new Post()
             {
                 Text = postRegisterDTO.Text,
-                CreatedDate = postRegisterDTO.CreatedDate,
-                UpdatedDate = postRegisterDTO.UpdatedDate,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now,
                 AuthorId = postRegisterDTO.AuthorId,
                 PostId = Guid.NewGuid(),
             };

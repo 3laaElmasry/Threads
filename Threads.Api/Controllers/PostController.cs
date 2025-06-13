@@ -22,7 +22,7 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult> PostCreate(PostRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            postDTO.AuthorId = Guid.NewGuid();
+            postDTO.AuthorId = Guid.Parse("ad894473-33e1-4129-2eb7-08ddaa41f013");
 
             var postFromDb = await _postService.AddPost(postDTO);
 
