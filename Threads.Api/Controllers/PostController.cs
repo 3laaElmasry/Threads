@@ -20,6 +20,8 @@ namespace Threads.Api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(PostResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> PostCreate(PostRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -30,6 +32,8 @@ namespace Threads.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PostResponse>> GetPostById(string id)
         {
             var post = await _postService.Get(id);
