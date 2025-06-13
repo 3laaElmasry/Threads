@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Threads.BusinessLogicLayer.ServiceContracts;
 using Threads.BusinessLogicLayer.Services;
 using Threads.DataAccessLayer.Data;
+using Threads.DataAccessLayer.Data.Entities;
 using Threads.DataAccessLayer.Repository;
 using Threads.DataAccessLayer.RepositoryContracts;
 
@@ -17,6 +20,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"));
 });
+
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+{
+    options.Password.RequiredLength = 6;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireDigit = true;
+    options.Password.RequiredUniqueChars = 1;
+}).AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders()
+.AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
+.AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
