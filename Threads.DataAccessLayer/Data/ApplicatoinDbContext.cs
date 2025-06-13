@@ -34,7 +34,7 @@ namespace Threads.DataAccessLayer.Data
             // Define relationship: Post belongs to an Author (User)
             modelBuilder.Entity<Post>()
                 .HasOne(p => p.Author)
-                .WithMany(u => u.Posts)
+                .WithMany()
                 .HasForeignKey(p => p.AuthorId)
                 .OnDelete(DeleteBehavior.NoAction); // Prevent cascade delete from User to Post
 
@@ -64,7 +64,7 @@ namespace Threads.DataAccessLayer.Data
             // Define relationship: Comment belongs to an Author (User)
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Author)
-                .WithMany(u => u.Comments)
+                .WithMany()
                 .HasForeignKey(c => c.AuthorId)
                 .OnDelete(DeleteBehavior.NoAction); // Prevent cascade delete from User to Comment
 

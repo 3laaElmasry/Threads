@@ -7,5 +7,6 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
     public interface IPostService
     {
         Task<PostResponse> AddPost(PostRequest postDTO);
+        Task<PostResponse?> Get(string Id);
     }
 }

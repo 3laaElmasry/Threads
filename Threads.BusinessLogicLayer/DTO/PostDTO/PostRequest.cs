@@ -10,7 +10,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
         [Required(ErrorMessage = "Post Description cann't be null")]
         public string Text { get; set; } = string.Empty;
 
-        public Guid AuthorId { get; set; }
+        public string AuthorId { get; set; } = string.Empty;
 
     }
 }

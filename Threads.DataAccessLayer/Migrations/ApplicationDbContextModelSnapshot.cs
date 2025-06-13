@@ -340,7 +340,7 @@ namespace Threads.DataAccessLayer.Migrations
             modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Comment", b =>
                 {
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.ApplicationUser", "Author")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -365,19 +365,12 @@ namespace Threads.DataAccessLayer.Migrations
             modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Post", b =>
                 {
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.ApplicationUser", "Author")
-                        .WithMany("Posts")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Comment", b =>

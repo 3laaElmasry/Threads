@@ -30,5 +30,13 @@ namespace Threads.BusinessLogicLayer.Services
             await _postRepository.Save();
             return newPost.ToPostResponse();
         }
+
+        public async Task<PostResponse?> Get(string Id)
+        {
+            Post? postFromDb = await _postRepository
+                .GetAsync(u => u.PostId.ToString() == Id,includeProperties: "Author");
+
+            return postFromDb?.ToPostResponse();
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace Threads.DataAccessLayer.Repository
             await dbSet.AddAsync(entity);
         }
 
-        public async Task<T?> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties, bool tracked = false)
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query;
 

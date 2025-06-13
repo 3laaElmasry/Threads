@@ -7,7 +7,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostDTO
 {
     public class PostResponse
     {
-        public Guid PostId { get; set; }
+        public string PostId { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

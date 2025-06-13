@@ -12,7 +12,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
                 Text = postRegisterDTO.Text,
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now,
-                AuthorId = postRegisterDTO.AuthorId,
+                AuthorId = Guid.Parse(postRegisterDTO.AuthorId),
                 PostId = Guid.NewGuid(),
             };
         }
@@ -26,7 +26,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
                 CreatedDate = postRegisterDTO.CreatedDate,
                 UpdatedDate = postRegisterDTO.UpdatedDate,
                 AuthorId = postRegisterDTO.AuthorId,
-                PostId = Guid.NewGuid(),
+                PostId = postRegisterDTO.PostId.ToString(),
                 Comments = postRegisterDTO.Comments,
                 Author = postRegisterDTO.Author
 
