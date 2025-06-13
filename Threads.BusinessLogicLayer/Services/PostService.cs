@@ -34,7 +34,7 @@ namespace Threads.BusinessLogicLayer.Services
         public async Task<PostResponse?> Get(string Id)
         {
             Post? postFromDb = await _postRepository
-                .GetAsync(u => u.PostId.ToString() == Id,includeProperties: "Author");
+                .GetAsync(u => u.PostId.ToString() == Id,includeProperties: "Author,Comments");
 
             return postFromDb?.ToPostResponse();
         }
