@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.DataAccessLayer.Data.Entities;
 
@@ -70,6 +72,7 @@ namespace Threads.Api.Controllers
             await _signInManager.SignOutAsync();
             return Ok(new { message = "Logout successful" });
         }
+
 
     }
 }
