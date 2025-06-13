@@ -41,7 +41,7 @@ namespace Threads.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(user.ToRegisterResponse());
         }
 
 
@@ -63,7 +63,7 @@ namespace Threads.Api.Controllers
             if(result.Succeeded)
             {
                 await _signInManager.SignInAsync(applicationUser,false);
-                return CreatedAtAction(nameof(GetUserById), new { id = applicationUser.Id }, applicationUser);
+                return CreatedAtAction(nameof(GetUserById), new { id = applicationUser.Id }, applicationUser.ToRegisterResponse());
 
             }
             else

@@ -18,9 +18,9 @@ namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "The Password can't be blank")]
-        [RegularExpression("^(?=.*[a-z])(?=.*\\d).{6,}$", 
-            ErrorMessage = "Password must be at least 6 characters and include " +
-            "at least one lowercase letter and one digit.")]
+        [RegularExpression("^(?=.*[a-z]).{5,}$",
+    ErrorMessage = "Password must be at least 5 characters and include at least one lowercase letter.")]
+
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
 
