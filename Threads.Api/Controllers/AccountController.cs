@@ -11,6 +11,7 @@ using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.Api.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -30,6 +31,7 @@ namespace Threads.Api.Controllers
 
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<RegisterResponse>> GetUserById(string id)
@@ -55,14 +57,14 @@ namespace Threads.Api.Controllers
                 UserName = register.UserName,
                 Email = register.Email,
                 PhoneNumber = register.PhoneNumber,
-                
+
             };
 
-            var result = await _userManager.CreateAsync(applicationUser,register.Password);
+            var result = await _userManager.CreateAsync(applicationUser, register.Password);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(applicationUser,false);
+                await _signInManager.SignInAsync(applicationUser, false);
                 return CreatedAtAction(nameof(GetUserById), new { id = applicationUser.Id }, applicationUser.ToRegisterResponse());
 
             }
@@ -96,7 +98,24 @@ namespace Threads.Api.Controllers
             return Ok(registerResponses);
         }
 
-        
+        [HttpGet("users/{email}")]
+        [Authorize]
+        [ProducesResponseType(typeof(List<RegisterResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<List<RegisterResponse>>> GetUsersByEmail(string email)
+        {
+            var usersWithEmail = await _userManager.Users
+                .Where(u => u.Email!.Contains(email)).ToListAsync();
+
+            if (usersWithEmail.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+
+            List<RegisterResponse> responseUsers = usersWithEmail.Select(u => u.ToRegisterResponse()).ToList();
+
+            return Ok(responseUsers);
+        }
 
 
     }
