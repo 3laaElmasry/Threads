@@ -25,15 +25,51 @@ namespace Threads.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ApplicationUser>> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
 
-        public ActionResult<ApplicationUser> PostRegister(Register register)
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<ApplicationUser>> PostRegister(Register register)
         {
             ApplicationUser applicationUser = new ApplicationUser
             {
                 UserName = register.UserName,
                 Email = register.Email,
+                PhoneNumber = register.PhoneNumber,
+                
+            };
+
+            var result = await _userManager.CreateAsync(applicationUser,register.Password);
+
+            if(result.Succeeded)
+            {
+                await _signInManager.SignInAsync(applicationUser,false);
+                return CreatedAtAction(nameof(GetUserById), new { id = applicationUser.Id }, applicationUser);
+
+            }
+            else
+            {
+                return BadRequest();
             }
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(new { message = "Logout successful" });
+        }
+
     }
 }
