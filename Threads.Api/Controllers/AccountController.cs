@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.Api.Controllers
@@ -23,6 +25,15 @@ namespace Threads.Api.Controllers
         }
 
 
+        [HttpPost]
 
+        public ActionResult<ApplicationUser> PostRegister(Register register)
+        {
+            ApplicationUser applicationUser = new ApplicationUser
+            {
+                UserName = register.UserName,
+                Email = register.Email,
+            }
+        }
     }
 }

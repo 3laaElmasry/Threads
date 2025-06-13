@@ -2,11 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
 {
-    public class RegisterRequest
+    public class Register
     {
-        [Required(ErrorMessage = "The Name cann't be blank")]
-        public string PersonName { get; set; } = string.Empty;
-
         [Required(ErrorMessage = "The User Name cann't be blank")]
         public string UserName { get; set; } = string.Empty;
 
