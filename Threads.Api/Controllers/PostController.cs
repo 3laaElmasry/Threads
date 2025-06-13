@@ -10,7 +10,7 @@ namespace Threads.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
@@ -26,7 +26,7 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult> PostCreate(PostRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            postDTO.AuthorId = "ad894473-33e1-4129-2eb7-08ddaa41f013";
+            postDTO.AuthorId = userId!;
 
             var postFromDb = await _postService.AddPost(postDTO);
             return CreatedAtAction(nameof(GetPostById), new { id = postFromDb.PostId }, postFromDb);
@@ -76,9 +76,11 @@ namespace Threads.Api.Controllers
         [ProducesResponseType(typeof(bool),StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
-        public async Task<ActionResult> DeletePost(string id)
+        public async Task<ActionResult> DeletePost(string postId)
         {
-            bool isDeleted = await _postService.DeletePost(id);
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            bool isDeleted = await _postService.DeletePost(postId,userId!);
             if (isDeleted)
             {
                 return NoContent();
@@ -90,6 +92,7 @@ namespace Threads.Api.Controllers
         }
 
         [HttpGet("getall")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<PostResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 

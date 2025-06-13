@@ -10,7 +10,7 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
         Task<PostResponse?> Get(string Id);
         Task<PostResponse> UpdatePost(string postId, PostRequest postDTO);
 
-        Task<bool> DeletePost(string postId);
+        Task<bool> DeletePost(string postId,string userId);
         Task<IEnumerable<PostResponse>> GetAllPosts();
     }
 }

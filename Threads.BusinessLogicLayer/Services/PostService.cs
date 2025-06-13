@@ -31,10 +31,10 @@ namespace Threads.BusinessLogicLayer.Services
             return newPost.ToPostResponse();
         }
 
-        public async Task<bool> DeletePost(string postId)
+        public async Task<bool> DeletePost(string postId, string userId)
         {
             var postFromDb = await _postRepository.GetAsync(p => p.PostId.ToString() == postId);
-            if (postFromDb is null)
+            if (postFromDb is null || postFromDb.AuthorId.ToString() != userId)
                 return false;
 
             _postRepository.Remove(postFromDb);
