@@ -30,9 +30,9 @@ namespace Threads.Api.Controllers
 
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApplicationUser), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApplicationUser>> GetUserById(string id)
+        public async Task<ActionResult<RegisterResponse>> GetUserById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -46,9 +46,9 @@ namespace Threads.Api.Controllers
 
 
         [HttpPost]
-        [ProducesResponseType(typeof(ApplicationUser), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ApplicationUser>> PostRegister(Register register)
+        public async Task<ActionResult<RegisterResponse>> PostRegister(Register register)
         {
             ApplicationUser applicationUser = new ApplicationUser
             {
@@ -82,7 +82,7 @@ namespace Threads.Api.Controllers
 
         [HttpGet("getall")]
         [Authorize]
-        [ProducesResponseType(typeof(IEnumerable<RegisterResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<RegisterResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
         public async Task<ActionResult<RegisterResponse>> GetAllUsers()
