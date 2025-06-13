@@ -10,7 +10,7 @@ namespace Threads.DataAccessLayer.RepositoryContracts
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
 
         // Get a single entity asynchronously with filtering
-        Task<T?> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties, bool tracked = false);
+        Task<T?> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false);
 
         // Add an entity asynchronously
         Task AddAsync(T entity); 

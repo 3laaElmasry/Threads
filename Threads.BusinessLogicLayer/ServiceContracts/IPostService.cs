@@ -8,5 +8,6 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
     {
         Task<PostResponse> AddPost(PostRequest postDTO);
         Task<PostResponse?> Get(string Id);
+        Task<PostResponse> UpdatePost(string postId, PostRequest postDTO);
     }
 }

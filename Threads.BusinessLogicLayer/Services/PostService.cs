@@ -38,5 +38,19 @@ namespace Threads.BusinessLogicLayer.Services
 
             return postFromDb?.ToPostResponse();
         }
+
+        public async Task<PostResponse> UpdatePost(string postId, PostRequest postDTO)
+        {
+            
+            Post postFromDb = await _postRepository
+                .GetAsync(u => u.PostId.ToString() == postId)?? new();
+            
+            postFromDb.Text = postDTO.Text;
+            postFromDb.UpdatedDate = DateTime.Now;
+
+            _postRepository.Update(postFromDb);
+            await _postRepository.Save();
+            return postFromDb.ToPostResponse();
+        }
     }
 }

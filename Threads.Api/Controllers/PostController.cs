@@ -46,7 +46,39 @@ namespace Threads.Api.Controllers
             return Ok(post);
         }
 
+        [HttpPut("update/{id}")]
+        [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<PostResponse>> PutPost(string id, PostRequest postRequest)
+        {
+            var postFromDB = await _postService.Get(id);
 
+            if(postFromDB == null || postFromDB.AuthorId.ToString() != postRequest.AuthorId)
+            {
+                return NotFound();
+            }
+
+            if (postFromDB.AuthorId.ToString() != postRequest.AuthorId)
+            {
+                return Forbid();
+            }
+            else
+            {
+                var updatedPost = await _postService.UpdatePost(id, postRequest);
+                return Ok(updatedPost);
+            }
+
+        }
+
+        [HttpDelete("delete/{id}")]
+        [ProducesResponseType(typeof(bool),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent())]
+
+        public async Task<ActionResult> DeletePost(string id)
+        {
+
+        }
 
     }
 }

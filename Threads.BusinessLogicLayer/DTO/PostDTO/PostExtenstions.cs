@@ -1,4 +1,5 @@
 ﻿using Threads.BusinessLogicLayer.DTO.PostDTO;
+using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
@@ -28,7 +29,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
                 AuthorId = postRegisterDTO.AuthorId,
                 PostId = postRegisterDTO.PostId.ToString(),
                 Comments = postRegisterDTO.Comments,
-                Author = postRegisterDTO.Author
+                Author = postRegisterDTO.Author?.ToRegisterResponse(),
 
             };
         }

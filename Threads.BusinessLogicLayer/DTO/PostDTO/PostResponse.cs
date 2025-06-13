@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.BusinessLogicLayer.DTO.PostDTO
@@ -13,7 +14,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostDTO
         public DateTime UpdatedDate { get; set; }
 
         public Guid AuthorId { get; set; }
-        public ApplicationUser? Author { get; set; }
+        public RegisterResponse? Author { get; set; }
         public List<Comment>? Comments { get; set; }
     }
 }
