@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Microsoft.IdentityModel.Tokens;
 using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.DataAccessLayer.Data.Entities;
 
@@ -72,6 +74,23 @@ namespace Threads.Api.Controllers
             await _signInManager.SignOutAsync();
             return Ok(new { message = "Logout successful" });
         }
+
+
+        [HttpGet("getall")]
+        [Authorize]
+
+        public async Task<ActionResult<RegisterResponse>> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            if (users.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+            var registerResponses = users.Select(u => u.ToRegisterResponse());
+            return Ok(registerResponses);
+        }
+
+        
 
 
     }
