@@ -12,5 +12,7 @@ namespace Threads.DataAccessLayer.Data.Entities
 
         [ValidateNever]
         public List<Comment>? Comments { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }
