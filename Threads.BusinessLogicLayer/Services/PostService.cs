@@ -31,12 +31,30 @@ namespace Threads.BusinessLogicLayer.Services
             return newPost.ToPostResponse();
         }
 
+        public async Task<bool> DeletePost(string postId)
+        {
+            var postFromDb = await _postRepository.GetAsync(p => p.PostId.ToString() == postId);
+            if (postFromDb is null)
+                return false;
+
+            _postRepository.Remove(postFromDb);
+            await _postRepository.Save();
+            return true;    
+        }
+
         public async Task<PostResponse?> Get(string Id)
         {
             Post? postFromDb = await _postRepository
                 .GetAsync(u => u.PostId.ToString() == Id,includeProperties: "Author,Comments");
 
             return postFromDb?.ToPostResponse();
+        }
+
+        public async Task<IEnumerable<PostResponse>> GetAllPosts()
+        {
+            var postsFromDb = await _postRepository.GetAllAsync();
+
+            return postsFromDb.Select(p => p.ToPostResponse());
         }
 
         public async Task<PostResponse> UpdatePost(string postId, PostRequest postDTO)

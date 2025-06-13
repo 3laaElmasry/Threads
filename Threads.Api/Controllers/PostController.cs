@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Threads.BusinessLogicLayer.DTO.PostDTO;
 using Threads.BusinessLogicLayer.DTO.PostExtenstions;
 using Threads.BusinessLogicLayer.ServiceContracts;
@@ -73,12 +74,37 @@ namespace Threads.Api.Controllers
 
         [HttpDelete("delete/{id}")]
         [ProducesResponseType(typeof(bool),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status204NoContent())]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
 
         public async Task<ActionResult> DeletePost(string id)
         {
-
+            bool isDeleted = await _postService.DeletePost(id);
+            if (isDeleted)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
+        [HttpGet("getall")]
+        [ProducesResponseType(typeof(List<PostResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+
+        public async Task<ActionResult<List<PostResponse>>> GetAll()
+        {
+            var postsFrombDb = await _postService.GetAllPosts();
+            if (postsFrombDb.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+            else
+            {
+                var postsResponse = postsFrombDb.ToList();
+                return Ok(postsResponse);
+            }
+        }
     }
 }
