@@ -75,6 +75,24 @@ namespace Threads.Api.Controllers
             return Ok(comment);
         }
 
+        [HttpGet("replies/{id}")]
+        [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+        public async Task<ActionResult<List<CommentResponse>>> GetCommentReplies(string parentId)
+        {
+            var parentFromDb = await _commentService.GetCommentById(parentId);
+
+            if (parentFromDb == null)
+            {
+                return NotFound();
+            }
+
+            List<CommentResponse>? childs = await _commentService
+                .GetCommentReplies(parentId);
+
+            return Ok(childs);
+        }
 
     }
 }

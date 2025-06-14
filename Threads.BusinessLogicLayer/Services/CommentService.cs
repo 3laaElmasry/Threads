@@ -52,5 +52,14 @@ namespace Threads.BusinessLogicLayer.Services
                 return null;
             return commentFromDb.ToCommentResponse();
         }
+
+        public async Task<List<CommentResponse>> GetCommentReplies(string parentId)
+        {
+            var childsFromDb = await _commentRepository
+                .GetAllAsync(c => c.ParentId.ToString() == parentId,includeProperties:"Author");
+
+            var childsResponses = childsFromDb.Select(c => c.ToCommentResponse()).ToList();
+            return childsResponses;
+        }
     }
 }
