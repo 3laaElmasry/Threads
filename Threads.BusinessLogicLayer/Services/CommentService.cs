@@ -1,6 +1,7 @@
 ﻿
 using Threads.BusinessLogicLayer.DTO.CommentDTO;
 using Threads.BusinessLogicLayer.ServiceContracts;
+using Threads.DataAccessLayer.Data.Entities;
 using Threads.DataAccessLayer.RepositoryContracts;
 
 namespace Threads.BusinessLogicLayer.Services
@@ -14,6 +15,26 @@ namespace Threads.BusinessLogicLayer.Services
             _commentRepository = commentRepository;
         }
 
+        public async Task<CommentResponse?> CreateComment(CommentRequest commentRequest)
+        {
+            if(!string.IsNullOrEmpty(commentRequest.ParentId))
+            {
+                var parentComment = await _commentRepository
+                    .GetAsync(c => c.CommentId.ToString() == commentRequest.ParentId);
+                if(parentComment != null)
+                {
+                    parentComment.Replys += 1;
+                    await _commentRepository.Save();
+                }
+            }
+
+            Comment newComment = commentRequest.ToComment();
+            await _commentRepository.AddAsync(newComment);
+            await _commentRepository.Save();
+            return newComment.ToCommentResponse();
+
+        }
+
         public async Task<List<CommentResponse>?> GetAll(string postId)
         {
             var commentsFromDb = await _commentRepository
@@ -21,6 +42,15 @@ namespace Threads.BusinessLogicLayer.Services
 
             var commentResponses = commentsFromDb.Select(c => c.ToCommentResponse()).ToList();
             return commentResponses;
+        }
+
+        public async Task<CommentResponse?> GetCommentById(string commentId)
+        {
+            var commentFromDb = await _commentRepository
+                .GetAsync(c => c.CommentId.ToString() == commentId,includeProperties:"Author");
+            if (commentFromDb is null)
+                return null;
+            return commentFromDb.ToCommentResponse();
         }
     }
 }

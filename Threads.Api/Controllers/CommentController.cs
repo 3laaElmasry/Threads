@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Threads.BusinessLogicLayer.DTO.CommentDTO;
 using Threads.BusinessLogicLayer.DTO.PostDTO;
 using Threads.BusinessLogicLayer.ServiceContracts;
+using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.Api.Controllers
 {
@@ -38,5 +39,42 @@ namespace Threads.Api.Controllers
             var comments = await _commentService.GetAll(postId);
             return Ok(comments);
         }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CommentResponse>> CreateComment(CommentRequest commentRequest)
+        {
+            var postFromDb = _postService.Get(commentRequest.PostId!);
+            if (postFromDb == null)
+            {
+                return NotFound();
+            }
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            commentRequest.AuthorId = userId;
+
+            var addedComment = await _commentService.CreateComment(commentRequest);
+            return CreatedAtAction(nameof(GetCommentById), new { id = addedComment?.CommentId }, addedComment);
+
+
+        }
+
+        [HttpGet("comment/{id}")]
+        [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CommentResponse>> GetCommentById(string id)
+        {
+            var comment = await _commentService.GetCommentById(id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(comment);
+        }
+
+
     }
 }
