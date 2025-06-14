@@ -21,6 +21,7 @@ namespace Threads.DataAccessLayer.Data.Entities
 
         public Guid? ParentId { get; set; }
 
+        public int Replys { get; set; } = 0;
         public ApplicationUser? Author { get; set; }
         public Post? Post { get; set; }
         public Comment? Parent { get; set; }

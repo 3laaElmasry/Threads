@@ -36,14 +36,8 @@ namespace Threads.DataAccessLayer.Data
                 .HasOne(p => p.Author)
                 .WithMany()
                 .HasForeignKey(p => p.AuthorId)
-                .OnDelete(DeleteBehavior.NoAction); // Prevent cascade delete from User to Post
+                .OnDelete(DeleteBehavior.Cascade); // Prevent cascade delete from User to Post
 
-            // Define relationship: Post has many Comments
-            modelBuilder.Entity<Post>()
-                .HasMany(p => p.Comments)
-                .WithOne(c => c.Post)
-                .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.NoAction); // Prevent cascade delete from Post to Comment
 
             // Configure Comment entity
             modelBuilder.Entity<Comment>()
@@ -61,19 +55,23 @@ namespace Threads.DataAccessLayer.Data
             modelBuilder.Entity<Comment>()
                 .Property(c => c.UpdatedDate);
 
-            // Define relationship: Comment belongs to an Author (User)
-            modelBuilder.Entity<Comment>()
-                .HasOne(c => c.Author)
-                .WithMany()
-                .HasForeignKey(c => c.AuthorId)
-                .OnDelete(DeleteBehavior.NoAction); // Prevent cascade delete from User to Comment
+           
 
             // Define relationship: Comment belongs to a Post
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.NoAction); // Ensure no cascade delete
+                .OnDelete(DeleteBehavior.Cascade); // Ensure cascade delete
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Parent)
+                .WithMany()
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Comment>()
+                .Property(c => c.Replys);
 
             base.OnModelCreating(modelBuilder);
         }
