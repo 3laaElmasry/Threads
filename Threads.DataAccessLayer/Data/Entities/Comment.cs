@@ -26,8 +26,5 @@ namespace Threads.DataAccessLayer.Data.Entities
         public Post? Post { get; set; }
         public Comment? Parent { get; set; }
 
-        [ValidateNever]
-        public List<Comment>? Children { get; set; }
-
     }
 }

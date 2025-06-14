@@ -13,5 +13,7 @@ namespace Threads.BusinessLogicLayer.DTO.CommentDTO
         public string? PostId { get; set; }
 
         public string? ParentId { get; set; }
+        public string? AuthorId { get; set; }
+
     }
 }
