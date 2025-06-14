@@ -17,7 +17,7 @@ namespace Threads.BusinessLogicLayer.Services
         public async Task<List<CommentResponse>?> GetAll(string postId)
         {
             var commentsFromDb = await _commentRepository
-                .GetAllAsync(c => c.PostId.ToString() == postId,includeProperties:"Author");
+                .GetAllAsync(c => c.PostId.ToString() == postId && c.ParentId == null,includeProperties:"Author");
 
             var commentResponses = commentsFromDb.Select(c => c.ToCommentResponse()).ToList();
             return commentResponses;
