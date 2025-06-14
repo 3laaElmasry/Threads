@@ -12,10 +12,13 @@ namespace Threads.BusinessLogicLayer.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-       
-        public PostService(IPostRepository postRepository)
+        private readonly ICommentRepository _commentRepository;
+
+        public PostService(IPostRepository postRepository, 
+            ICommentRepository commentRepository)
         {
             _postRepository = postRepository;
+            _commentRepository = commentRepository;
         }
 
         public async Task<PostResponse> AddPost(PostRequest postRequest)
@@ -45,9 +48,16 @@ namespace Threads.BusinessLogicLayer.Services
         public async Task<PostResponse?> Get(string Id)
         {
             Post? postFromDb = await _postRepository
-                .GetAsync(u => u.PostId.ToString() == Id,includeProperties: "Author,Comments");
+                .GetAsync(u => u.PostId.ToString() == Id,includeProperties: "Author");
+            if (postFromDb is null)
+                return null;
 
-            return postFromDb?.ToPostResponse();
+            var comments = await _commentRepository
+                .GetAllAsync(c => c.PostId.ToString() == Id && c.ParentId == null, includeProperties: "Author");
+
+            postFromDb.Comments = comments.ToList();
+
+            return postFromDb.ToPostResponse();
         }
 
         public async Task<IEnumerable<PostResponse>> GetAllPosts()

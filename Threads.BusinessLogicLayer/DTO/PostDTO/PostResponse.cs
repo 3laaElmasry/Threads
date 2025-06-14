@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Threads.BusinessLogicLayer.DTO.CommentDTO;
 using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.DataAccessLayer.Data.Entities;
 
@@ -15,6 +16,6 @@ namespace Threads.BusinessLogicLayer.DTO.PostDTO
 
         public Guid AuthorId { get; set; }
         public RegisterResponse? Author { get; set; }
-        public List<Comment>? Comments { get; set; }
+        public List<CommentResponse>? Comments { get; set; }
     }
 }

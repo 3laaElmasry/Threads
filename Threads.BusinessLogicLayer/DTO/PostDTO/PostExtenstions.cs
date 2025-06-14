@@ -1,4 +1,5 @@
-﻿using Threads.BusinessLogicLayer.DTO.PostDTO;
+﻿using Threads.BusinessLogicLayer.DTO.CommentDTO;
+using Threads.BusinessLogicLayer.DTO.PostDTO;
 using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.DataAccessLayer.Data.Entities;
 
@@ -28,7 +29,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
                 UpdatedDate = postRegisterDTO.UpdatedDate,
                 AuthorId = postRegisterDTO.AuthorId,
                 PostId = postRegisterDTO.PostId.ToString(),
-                Comments = postRegisterDTO.Comments,
+                Comments = postRegisterDTO.Comments?.Select(c => c.ToCommentResponse()).ToList(),
                 Author = postRegisterDTO.Author?.ToRegisterResponse(),
 
             };
