@@ -62,7 +62,7 @@ namespace Threads.BusinessLogicLayer.Services
 
         public async Task<IEnumerable<PostResponse>> GetAllPosts()
         {
-            var postsFromDb = await _postRepository.GetAllAsync();
+            var postsFromDb = await _postRepository.GetAllAsync(includeProperties:"Author");
 
             return postsFromDb.Select(p => p.ToPostResponse());
         }
