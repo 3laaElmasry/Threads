@@ -12,7 +12,9 @@ namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
                 Id = user.Id.ToString(),
                 UserName = user.UserName ?? "",
                 Email = user.Email ?? "",
-                ImageUrl = user.ImageUrl
+                ImageUrl = user.ImageUrl,
+                PersonName = user.PersonName??"",
+
             };
         }
     }

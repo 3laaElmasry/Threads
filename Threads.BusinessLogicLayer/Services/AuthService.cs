@@ -10,7 +10,7 @@ namespace Threads.BusinessLogicLayer.Services
     {
         public Task<AuthModel> RegisterAysnc(Register model)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

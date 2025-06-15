@@ -57,6 +57,7 @@ namespace Threads.Api.Controllers
                 UserName = register.UserName,
                 Email = register.Email,
                 PhoneNumber = register.PhoneNumber,
+                PersonName = register.PersonName,
 
             };
 
