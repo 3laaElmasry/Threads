@@ -37,7 +37,7 @@ namespace Threads.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("register")]
         [ProducesResponseType(typeof(AuthModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AuthModel>> PostRegister(Register register)

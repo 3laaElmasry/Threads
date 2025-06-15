@@ -10,7 +10,7 @@ namespace Threads.DataAccessLayer.Data.Entities
         public string? ImageUrl { get; set; }
 
         [Required]
-        [Range(maximum: 50,minimum:3)]
+        [StringLength(50, MinimumLength = 3)]
         public string? PersonName { get; set; }
     }
 }
