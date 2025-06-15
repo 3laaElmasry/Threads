@@ -11,5 +11,7 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
         Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user);
 
         Task<AuthModel> RegisterAsync(Register user);
+
+        Task<AuthModel> GetJwtTokenAsync(UserLoginModel user);
     }
 }

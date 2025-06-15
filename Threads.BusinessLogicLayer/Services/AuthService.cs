@@ -86,6 +86,35 @@ namespace Threads.BusinessLogicLayer.Services
 
         }
 
+        public async Task<AuthModel> GetJwtTokenAsync(UserLoginModel userLogin)
+        {
+            var authModel = new AuthModel();
+
+            var user = await _userManager.FindByEmailAsync(userLogin.Email);
+
+            if (user is null || !await _userManager.CheckPasswordAsync(user, userLogin.Password))
+            {
+                authModel.Message = "Email address or password is incorrect!";
+                authModel.IsAuthonticated = false;
+                return authModel;
+            }
+
+            await _signInManager.SignInAsync(user, false);
+            var jwtSecurityToken = await CreateJwtToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
+
+            authModel.Email = user.Email!;
+            authModel.ExpiresOn = jwtSecurityToken.ValidTo;
+            authModel.IsAuthonticated = true;
+            authModel.Roles = roles.ToList();
+            authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            authModel.UserName = user.UserName!;
+            authModel.Message = "Succeded";
+            
+            return authModel;
+        }
+
         public async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
@@ -130,6 +159,6 @@ namespace Threads.BusinessLogicLayer.Services
             return jwtSecurityToken;
         }
 
-      
+        
     }
 }
