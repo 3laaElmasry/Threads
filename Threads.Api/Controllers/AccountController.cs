@@ -132,5 +132,21 @@ namespace Threads.Api.Controllers
                 return Ok(false);
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> IsUserNameAlreadyExist(string userName)
+
+        {
+            ApplicationUser? user = await _userManager.FindByNameAsync(userName);
+
+            if (user is null)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
     }
 }

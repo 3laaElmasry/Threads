@@ -5,6 +5,13 @@ namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
     public class Register
     {
         [Required(ErrorMessage = "The User Name cann't be blank")]
+        [Range(minimum:3, maximum:50)]
+        
+        public string PersonName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "The User Name cann't be blank")]
+        [Remote(action: "IsUserNameAlreadyExist",
+            controller: "Account", ErrorMessage = "UserName is Already Use")]
         public string UserName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "The User Name cann't be blank")]

@@ -99,7 +99,7 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult<List<PostResponse>>> GetAll()
         {
             var postsFrombDb = await _postService.GetAllPosts();
-            if (postsFrombDb.IsNullOrEmpty())
+            if (postsFrombDb.Count() <= 0)
             {
                 return NoContent();
             }
