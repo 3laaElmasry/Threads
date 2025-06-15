@@ -90,7 +90,7 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult<RegisterResponse>> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
-            if (users.IsNullOrEmpty())
+            if (users.Count <= 0)
             {
                 return NoContent();
             }
@@ -107,7 +107,7 @@ namespace Threads.Api.Controllers
             var usersWithEmail = await _userManager.Users
                 .Where(u => u.Email!.Contains(email)).ToListAsync();
 
-            if (usersWithEmail.IsNullOrEmpty())
+            if (usersWithEmail.Count <= 0)
             {
                 return NoContent();
             }
@@ -117,6 +117,20 @@ namespace Threads.Api.Controllers
             return Ok(responseUsers);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> IsEmailAlreadyExist(string email)
 
+        {
+            ApplicationUser? user = await _userManager.FindByEmailAsync(email);
+
+            if (user is null)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
     }
 }
