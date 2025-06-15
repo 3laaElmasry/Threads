@@ -42,8 +42,31 @@ namespace Threads.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AuthModel>> PostRegister([FromBody]Register user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _authService.RegisterAsync(user);
 
-           var result = await _authService.RegisterAsync(user);
+            if (!result.IsAuthonticated)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("login")]
+        [ProducesResponseType(typeof(AuthModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<AuthModel>> PostLogIn([FromBody] UserLoginModel user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _authService.GetJwtTokenAsync(user);
 
             if (!result.IsAuthonticated)
             {
