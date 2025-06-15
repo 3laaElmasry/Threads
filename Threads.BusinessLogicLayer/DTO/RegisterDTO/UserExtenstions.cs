@@ -3,11 +3,11 @@ using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
 {
-    public static class ReigsterExtenstions
+    public static class UserExtenstions
     {
-        public static RegisterResponse ToRegisterResponse (this ApplicationUser user)
+        public static UserResponse ToRegisterResponse (this ApplicationUser user)
         {
-            return new RegisterResponse
+            return new UserResponse
             {
                 Id = user.Id.ToString(),
                 UserName = user.UserName ?? "",

@@ -1,6 +1,6 @@
 ﻿namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
 {
-    public class RegisterResponse
+    public class UserResponse
     {
         public string PersonName { get; set; } = string.Empty;
 

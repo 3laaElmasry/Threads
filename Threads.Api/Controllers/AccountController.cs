@@ -5,8 +5,13 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using Threads.BusinessLogicLayer.DTO.RegisterDTO;
+using Threads.BusinessLogicLayer.Models;
+using Threads.BusinessLogicLayer.ServiceContracts;
+using Threads.DataAccessLayer;
 using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.Api.Controllers
@@ -19,38 +24,23 @@ namespace Threads.Api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-
+        private readonly IAuthService _authService;
         public AccountController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager)
+            RoleManager<ApplicationRole> roleManager,
+            IAuthService authService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
-        }
-
-
-        [HttpGet("{id}")]
-        [Authorize]
-        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<RegisterResponse>> GetUserById(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user.ToRegisterResponse());
+            _authService = authService;
         }
 
 
         [HttpPost]
-        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(AuthModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<RegisterResponse>> PostRegister(Register register)
+        public async Task<ActionResult<AuthModel>> PostRegister(Register register)
         {
             ApplicationUser applicationUser = new ApplicationUser
             {
@@ -63,16 +53,30 @@ namespace Threads.Api.Controllers
 
             var result = await _userManager.CreateAsync(applicationUser, register.Password);
 
-            if (result.Succeeded)
+            if(!result.Succeeded)
             {
-                await _signInManager.SignInAsync(applicationUser, false);
-                return CreatedAtAction(nameof(GetUserById), new { id = applicationUser.Id }, applicationUser.ToRegisterResponse());
+                var errorMessage = String.Join(",", result.Errors.Select(e => e.Description));
+                BadRequest(errorMessage);
+            }
+            await _userManager.AddToRoleAsync(applicationUser, Statics.User_Role);
+            await _signInManager.SignInAsync(applicationUser, false);
 
-            }
-            else
+            var jwtSecurityToken = await _authService.CreateJwtToken(applicationUser);
+
+
+            var roles = await _userManager.GetRolesAsync(applicationUser);
+
+            var authResponse = new AuthModel
             {
-                return BadRequest();
-            }
+                Email = applicationUser.Email,
+                ExpiresOn = jwtSecurityToken.ValidTo,
+                IsAuthonticated = true,
+                Roles = roles.ToList(),
+                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                UserName = applicationUser.UserName,
+            };
+
+            return Ok(authResponse);
         }
 
         [HttpPost("logout")]
@@ -85,10 +89,10 @@ namespace Threads.Api.Controllers
 
         [HttpGet("getall")]
         [Authorize]
-        [ProducesResponseType(typeof(List<RegisterResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
-        public async Task<ActionResult<RegisterResponse>> GetAllUsers()
+        public async Task<ActionResult<UserResponse>> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
             if (users.Count <= 0)
@@ -99,21 +103,21 @@ namespace Threads.Api.Controllers
             return Ok(registerResponses);
         }
 
-        [HttpGet("users/{email}")]
+        [HttpGet("users/{userName}")]
         [Authorize]
-        [ProducesResponseType(typeof(List<RegisterResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<RegisterResponse>>> GetUsersByEmail(string email)
+        public async Task<ActionResult<List<UserResponse>>> GetUsersByUserName(string userName)
         {
-            var usersWithEmail = await _userManager.Users
-                .Where(u => u.Email!.Contains(email)).ToListAsync();
+            var usersWithUserName = await _userManager.Users
+                .Where(u => u.UserName!.Contains(userName)).ToListAsync();
 
-            if (usersWithEmail.Count <= 0)
+            if (usersWithUserName.Count <= 0)
             {
                 return NoContent();
             }
 
-            List<RegisterResponse> responseUsers = usersWithEmail.Select(u => u.ToRegisterResponse()).ToList();
+            List<UserResponse> responseUsers = usersWithUserName.Select(u => u.ToRegisterResponse()).ToList();
 
             return Ok(responseUsers);
         }

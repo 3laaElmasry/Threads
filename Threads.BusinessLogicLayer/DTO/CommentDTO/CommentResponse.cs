@@ -20,6 +20,6 @@ namespace Threads.BusinessLogicLayer.DTO.CommentDTO
 
         public int Replys { get; set; }
 
-        public RegisterResponse? Author { get; set; }
+        public UserResponse? Author { get; set; }
     }
 }

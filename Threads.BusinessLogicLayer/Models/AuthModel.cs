@@ -14,6 +14,8 @@ namespace Threads.BusinessLogicLayer.Models
 
         public List<string> Roles { get; set; } = new List<string>();
 
-        public DateTime ExpiresOn {  get; set; } 
+        public DateTime ExpiresOn {  get; set; }
+
+        public string Token { get; set; } = string.Empty;
     }
 }

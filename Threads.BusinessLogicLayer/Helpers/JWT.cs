@@ -1,4 +1,4 @@
-﻿namespace Threads.Api.Helpers
+﻿namespace Threads.BusinessLogicLayer.Models
 {
     public class JWT
     {
