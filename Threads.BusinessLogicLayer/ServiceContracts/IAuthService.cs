@@ -9,5 +9,7 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
     public interface IAuthService
     {
         Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user);
+
+        Task<AuthModel> RegisterAsync(Register user);
     }
 }

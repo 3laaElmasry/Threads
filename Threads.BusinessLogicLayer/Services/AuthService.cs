@@ -9,6 +9,7 @@ using System.Text;
 using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.BusinessLogicLayer.Models;
 using Threads.BusinessLogicLayer.ServiceContracts;
+using Threads.DataAccessLayer;
 using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.BusinessLogicLayer.Services
@@ -17,11 +18,72 @@ namespace Threads.BusinessLogicLayer.Services
     {
         private readonly JWT _jwt;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public AuthService(UserManager<ApplicationUser> userManager, IOptions<JWT> jwt)
+        public AuthService(IOptions<JWT> jwt,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<ApplicationRole> roleManager)
         {
             _jwt = jwt.Value;
             _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
+        }
+
+        public async Task<AuthModel> RegisterAsync(Register user)
+        {
+            if (await _userManager.FindByEmailAsync(user.Email) is not null)
+            {
+                return new AuthModel { Message = "Email is Already Exist", IsAuthonticated = false };
+            }
+
+            if (await _userManager.FindByNameAsync(user.UserName) is not null)
+            {
+                return new AuthModel { Message = "User Name is Already Exist", IsAuthonticated = false };
+            }
+
+            ApplicationUser applicationUser = new ApplicationUser
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                PersonName = user.PersonName,
+
+            };
+
+            var result = await _userManager.CreateAsync(applicationUser, user.Password);
+
+            if (!result.Succeeded)
+            {
+                var errorMessage = String.Join(",", result.Errors.Select(e => e.Description));
+                return new AuthModel { Message = errorMessage, IsAuthonticated = false };
+
+            }
+
+
+            await _userManager.AddToRoleAsync(applicationUser, Statics.User_Role);
+            await _signInManager.SignInAsync(applicationUser, false);
+
+            var jwtSecurityToken = await CreateJwtToken(applicationUser);
+
+
+            var roles = await _userManager.GetRolesAsync(applicationUser);
+
+            var authResponse = new AuthModel
+            {
+                Email = applicationUser.Email,
+                ExpiresOn = jwtSecurityToken.ValidTo,
+                IsAuthonticated = true,
+                Roles = roles.ToList(),
+                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                UserName = applicationUser.UserName,
+                Message = "Succeded"
+            };
+
+            return authResponse;
+
         }
 
         public async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
@@ -67,5 +129,7 @@ namespace Threads.BusinessLogicLayer.Services
 
             return jwtSecurityToken;
         }
+
+      
     }
 }

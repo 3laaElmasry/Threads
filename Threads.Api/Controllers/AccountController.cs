@@ -40,43 +40,17 @@ namespace Threads.Api.Controllers
         [HttpPost("register")]
         [ProducesResponseType(typeof(AuthModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AuthModel>> PostRegister(Register register)
+        public async Task<ActionResult<AuthModel>> PostRegister([FromBody]Register user)
         {
-            ApplicationUser applicationUser = new ApplicationUser
+
+           var result = await _authService.RegisterAsync(user);
+
+            if (!result.IsAuthonticated)
             {
-                UserName = register.UserName,
-                Email = register.Email,
-                PhoneNumber = register.PhoneNumber,
-                PersonName = register.PersonName,
-
-            };
-
-            var result = await _userManager.CreateAsync(applicationUser, register.Password);
-
-            if(!result.Succeeded)
-            {
-                var errorMessage = String.Join(",", result.Errors.Select(e => e.Description));
-                BadRequest(errorMessage);
+                return BadRequest(result);
             }
-            await _userManager.AddToRoleAsync(applicationUser, Statics.User_Role);
-            await _signInManager.SignInAsync(applicationUser, false);
 
-            var jwtSecurityToken = await _authService.CreateJwtToken(applicationUser);
-
-
-            var roles = await _userManager.GetRolesAsync(applicationUser);
-
-            var authResponse = new AuthModel
-            {
-                Email = applicationUser.Email,
-                ExpiresOn = jwtSecurityToken.ValidTo,
-                IsAuthonticated = true,
-                Roles = roles.ToList(),
-                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                UserName = applicationUser.UserName,
-            };
-
-            return Ok(authResponse);
+            return Ok(result);
         }
 
         [HttpPost("logout")]
