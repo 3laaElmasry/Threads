@@ -7,10 +7,10 @@ using Threads.DataAccessLayer.Data;
 using Threads.DataAccessLayer.Data.Entities;
 using Threads.DataAccessLayer.Repository;
 using Threads.DataAccessLayer.RepositoryContracts;
-using Threads.Api.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Threads.BusinessLogicLayer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
