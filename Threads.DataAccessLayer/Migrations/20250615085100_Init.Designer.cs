@@ -12,8 +12,8 @@ using Threads.DataAccessLayer.Data;
 namespace Threads.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250614072034_ParentCommentRelationandSetReplysCount")]
-    partial class ParentCommentRelationandSetReplysCount
+    [Migration("20250615085100_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,9 +234,6 @@ namespace Threads.DataAccessLayer.Migrations
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CommentId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -260,8 +257,6 @@ namespace Threads.DataAccessLayer.Migrations
                     b.HasKey("CommentId");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("CommentId1");
 
                     b.HasIndex("ParentId");
 
@@ -356,10 +351,6 @@ namespace Threads.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Threads.DataAccessLayer.Data.Entities.Comment", null)
-                        .WithMany("Children")
-                        .HasForeignKey("CommentId1");
-
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.Comment", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId")
@@ -368,7 +359,7 @@ namespace Threads.DataAccessLayer.Migrations
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -387,11 +378,6 @@ namespace Threads.DataAccessLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Comment", b =>
-                {
-                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Post", b =>

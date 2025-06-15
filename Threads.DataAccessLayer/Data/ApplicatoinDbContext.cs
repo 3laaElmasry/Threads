@@ -62,7 +62,7 @@ namespace Threads.DataAccessLayer.Data
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.Cascade); // Ensure cascade delete
+                .OnDelete(DeleteBehavior.NoAction); // Ensure cascade delete
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Parent)

@@ -12,8 +12,8 @@ using Threads.DataAccessLayer.Data;
 namespace Threads.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250613051401_AddImgUserUrl")]
-    partial class AddImgUserUrl
+    [Migration("20250615085125_SeedingRoles")]
+    partial class SeedingRoles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -243,6 +243,9 @@ namespace Threads.DataAccessLayer.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Replys")
+                        .HasColumnType("int");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -343,14 +346,15 @@ namespace Threads.DataAccessLayer.Migrations
             modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Comment", b =>
                 {
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.ApplicationUser", "Author")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.Comment", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.Post", "Post")
                         .WithMany("Comments")
@@ -368,24 +372,12 @@ namespace Threads.DataAccessLayer.Migrations
             modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Post", b =>
                 {
                     b.HasOne("Threads.DataAccessLayer.Data.Entities.ApplicationUser", "Author")
-                        .WithMany("Posts")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Comment", b =>
-                {
-                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("Threads.DataAccessLayer.Data.Entities.Post", b =>
