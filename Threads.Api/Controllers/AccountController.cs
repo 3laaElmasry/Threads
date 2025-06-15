@@ -122,7 +122,7 @@ namespace Threads.Api.Controllers
             return Ok(responseUsers);
         }
 
-        [HttpGet]
+        [HttpGet("check-email/{email}")]
         public async Task<ActionResult> IsEmailAlreadyExist(string email)
 
         {
@@ -138,7 +138,7 @@ namespace Threads.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("check-username/{userName}")]
         public async Task<ActionResult> IsUserNameAlreadyExist(string userName)
 
         {
