@@ -111,7 +111,7 @@ namespace Threads.BusinessLogicLayer.Services
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.UserName = user.UserName!;
             authModel.Message = "Succeded";
-            
+
             return authModel;
         }
 
@@ -131,8 +131,9 @@ namespace Threads.BusinessLogicLayer.Services
                 //jwt unique id
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
-                //Date and Time of Token Genration
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+               new Claim(JwtRegisteredClaimNames.Iat,
+               new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
+               ClaimValueTypes.Integer64),
 
                 //Unique Name Identifier of the user (email)
                 new Claim(ClaimTypes.NameIdentifier, user.Email!),
@@ -159,6 +160,6 @@ namespace Threads.BusinessLogicLayer.Services
             return jwtSecurityToken;
         }
 
-        
+
     }
 }

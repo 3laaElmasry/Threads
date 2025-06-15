@@ -84,8 +84,8 @@ namespace Threads.Api.Controllers
         }
 
 
-        [HttpGet("getall")]
         [Authorize]
+        [HttpGet("getall")]
         [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
