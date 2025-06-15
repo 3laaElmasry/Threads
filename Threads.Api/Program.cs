@@ -7,6 +7,7 @@ using Threads.DataAccessLayer.Data;
 using Threads.DataAccessLayer.Data.Entities;
 using Threads.DataAccessLayer.Repository;
 using Threads.DataAccessLayer.RepositoryContracts;
+using Threads.Api.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,10 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 builder.Services.AddScoped<ICommentService, CommentService>();
+
+
+builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
+
 
 var app = builder.Build();
 
