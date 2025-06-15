@@ -46,6 +46,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
