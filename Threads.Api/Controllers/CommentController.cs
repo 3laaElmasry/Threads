@@ -7,10 +7,10 @@ using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
-    //[Authorize]
     public class CommentController : ControllerBase
     {
         private readonly ICommentService _commentService;

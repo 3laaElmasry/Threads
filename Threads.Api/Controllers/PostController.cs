@@ -59,11 +59,6 @@ namespace Threads.Api.Controllers
             {
                 return NotFound();
             }
-
-            if (postFromDB.AuthorId.ToString() != postRequest.AuthorId)
-            {
-                return Forbid();
-            }
             else
             {
                 var updatedPost = await _postService.UpdatePost(id, postRequest);
