@@ -47,10 +47,11 @@ namespace Threads.BusinessLogicLayer.Services
             return true;    
         }
 
-        public async Task<PostResponse?> Get(string Id)
+        public async Task<PostResponse?> Get(string Id,string? includePropreties = null)
         {
-            Post? postFromDb = await _postRepository
-                .GetAsync(u => u.PostId.ToString() == Id,includeProperties: "Author");
+            var postFromDb = await _postRepository
+                .GetAsync(u => u.PostId.ToString() == Id,includeProperties: includePropreties);
+
             if (postFromDb is null)
                 return null;
 

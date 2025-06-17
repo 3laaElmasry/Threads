@@ -64,10 +64,10 @@ namespace Threads.DataAccessLayer.Data
                 .OnDelete(DeleteBehavior.NoAction); // Ensure cascade delete
 
             modelBuilder.Entity<Comment>()
-                .HasOne(c => c.Parent)
-                .WithMany()
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
+            .HasOne(c => c.Parent)
+            .WithMany(p => p.Replies)
+            .HasForeignKey(c => c.ParentId)
+            .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Comment>()
                 .Property(c => c.Replys);

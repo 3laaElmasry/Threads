@@ -45,7 +45,8 @@ namespace Threads.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CommentResponse>> CreateComment(CommentRequest commentRequest)
         {
-            var postFromDb = _postService.Get(commentRequest.PostId!);
+            var postFromDb = await _postService.Get(commentRequest.PostId!);
+
             if (postFromDb == null)
             {
                 return NotFound();

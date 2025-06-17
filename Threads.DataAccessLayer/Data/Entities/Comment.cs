@@ -26,5 +26,8 @@ namespace Threads.DataAccessLayer.Data.Entities
         public Post? Post { get; set; }
         public Comment? Parent { get; set; }
 
+
+        public List<Comment> Replies { get; set; } = new List<Comment>();
+
     }
 }
