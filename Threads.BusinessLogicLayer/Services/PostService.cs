@@ -42,6 +42,9 @@ namespace Threads.BusinessLogicLayer.Services
             if (postFromDb is null || postFromDb.AuthorId.ToString() != userId)
                 return false;
 
+            var commentToRemove = await _commentRepository
+                .GetAllAsync(c => c.PostId == postFromDb.PostId);
+            _commentRepository.RemoveRange(commentToRemove);
             _postRepository.Remove(postFromDb);
             await _postRepository.Save();
             return true;    

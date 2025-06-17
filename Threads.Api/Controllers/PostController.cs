@@ -47,7 +47,7 @@ namespace Threads.Api.Controllers
             return Ok(post);
         }
 
-        [HttpPut("update/{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -67,15 +67,15 @@ namespace Threads.Api.Controllers
 
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(bool),StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
-        public async Task<ActionResult> DeletePost(string postId)
+        public async Task<ActionResult> DeletePost(string id)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            bool isDeleted = await _postService.DeletePost(postId,userId!);
+            bool isDeleted = await _postService.DeletePost(id,userId!);
             if (isDeleted)
             {
                 return NoContent();
