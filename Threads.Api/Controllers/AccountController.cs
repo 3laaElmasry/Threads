@@ -100,7 +100,7 @@ namespace Threads.Api.Controllers
             return Ok(registerResponses);
         }
 
-        [HttpGet("users/{userName}")]
+        [HttpGet("User{userName}")]
         [Authorize]
         [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
