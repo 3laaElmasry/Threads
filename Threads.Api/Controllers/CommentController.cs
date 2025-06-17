@@ -61,7 +61,7 @@ namespace Threads.Api.Controllers
 
         }
 
-        [HttpGet("comment/{id}")]
+        [HttpGet("detail{id}")]
         [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CommentResponse>> GetCommentById(string id)
