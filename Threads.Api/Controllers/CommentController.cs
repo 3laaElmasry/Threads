@@ -30,7 +30,7 @@ namespace Threads.Api.Controllers
             if (postId == null)
                 return BadRequest("Post Id Is Required");
 
-            var postFromDb = _postService.Get(postId);
+            var postFromDb = await _postService.Get(postId);
             if(postFromDb == null)
             {
                 return NotFound();

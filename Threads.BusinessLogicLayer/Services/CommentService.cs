@@ -24,7 +24,7 @@ namespace Threads.BusinessLogicLayer.Services
                 if(parentComment != null)
                 {
                     parentComment.Replys += 1;
-                    await _commentRepository.Save();
+                    _commentRepository.Update(parentComment);
                 }
             }
 
