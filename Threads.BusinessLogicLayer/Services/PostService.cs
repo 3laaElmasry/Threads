@@ -31,7 +31,9 @@ namespace Threads.BusinessLogicLayer.Services
 
             await _postRepository.AddAsync(newPost);
             await _postRepository.Save();
-            return newPost.ToPostResponse();
+            newPost = await _postRepository
+                .GetAsync(p => p.PostId == newPost.PostId, includeProperties: "Author");
+            return newPost!.ToPostResponse();
         }
 
         public async Task<bool> DeletePost(string postId, string userId)
