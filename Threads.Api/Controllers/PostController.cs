@@ -54,8 +54,8 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult<PostResponse>> PutPost(string id, PostRequest postRequest)
         {
             var postFromDB = await _postService.Get(id);
-
-            if(postFromDB == null || postFromDB.AuthorId.ToString() != postRequest.AuthorId)
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (postFromDB == null || postFromDB.AuthorId.ToString() != userId)
             {
                 return NotFound();
             }

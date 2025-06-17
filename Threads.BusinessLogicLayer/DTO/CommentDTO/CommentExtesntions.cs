@@ -9,13 +9,12 @@ namespace Threads.BusinessLogicLayer.DTO.CommentDTO
     {
         public static Comment ToComment(this CommentRequest comment)
         {
-            Guid.TryParse(comment.ParentId,out var paraentId);
             return new Comment
             {
                 CommentId = Guid.NewGuid(),
                 AuthorId = Guid.Parse(comment.AuthorId!),
                 PostId = Guid.Parse(comment.PostId!),
-                ParentId = paraentId,
+                ParentId = String.IsNullOrEmpty(comment.ParentId)? null : Guid.Parse(comment.ParentId),
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now,
                 Text = comment.Text!,
