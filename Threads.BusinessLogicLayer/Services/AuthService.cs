@@ -62,7 +62,6 @@ namespace Threads.BusinessLogicLayer.Services
 
             }
 
-
             await _userManager.AddToRoleAsync(applicationUser, Statics.User_Role);
             await _signInManager.SignInAsync(applicationUser, false);
 
