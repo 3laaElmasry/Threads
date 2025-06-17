@@ -9,7 +9,7 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
         Task<PostResponse> AddPost(PostRequest postDTO);
         Task<PostResponse?> Get(string Id,string? includePropreties = null);
         Task<PostResponse> UpdatePost(string postId, PostRequest postDTO);
-
+        Task<bool> IsExist(string id);
         Task<bool> DeletePost(string postId,string userId);
         Task<IEnumerable<PostResponse>> GetAllPosts();
     }

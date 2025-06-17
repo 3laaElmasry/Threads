@@ -86,5 +86,11 @@ namespace Threads.BusinessLogicLayer.Services
             await _postRepository.Save();
             return postFromDb.ToPostResponse();
         }
+
+        public async Task<bool> IsExist(string id)
+        {
+            var postFromDb = await _postRepository.GetAsync(p => p.PostId.ToString() == id);
+            return postFromDb is not null;
+        }
     }
 }

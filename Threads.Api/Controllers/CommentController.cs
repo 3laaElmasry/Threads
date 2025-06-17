@@ -45,9 +45,9 @@ namespace Threads.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CommentResponse>> CreateComment(CommentRequest commentRequest)
         {
-            var postFromDb = await _postService.Get(commentRequest.PostId!);
+            bool isExist = await _postService.IsExist(commentRequest.PostId!);
 
-            if (postFromDb == null)
+            if (!isExist)
             {
                 return NotFound();
             }
@@ -76,7 +76,7 @@ namespace Threads.Api.Controllers
             return Ok(comment);
         }
 
-        [HttpGet("replies/{id}")]
+        [HttpGet("replies/{parentId}")]
         [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
