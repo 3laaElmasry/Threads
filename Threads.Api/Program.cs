@@ -8,6 +8,7 @@ using Threads.DataAccessLayer.Repository;
 using Threads.DataAccessLayer.RepositoryContracts;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Clerk.BackendAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,11 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 builder.Services.AddScoped<ICommentService, CommentService>();
+
+builder.Services.AddScoped<IClerkUserService, ClerkUserService>();
+
+builder.Services.AddSingleton(_ =>
+    new ClerkBackendApi(bearerAuth: builder.Configuration["Clerk:SecretKey"]));
 
 
 builder.Services.AddAuthentication("Bearer")
