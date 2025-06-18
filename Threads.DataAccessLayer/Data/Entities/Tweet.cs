@@ -3,15 +3,15 @@
 
 namespace Threads.DataAccessLayer.Data.Entities
 {
-        public class Post
+        public class Tweet
         {
-            public Guid PostId { get; set; }
+            public Guid TweetId { get; set; }
             public string Text { get; set; } = string.Empty;
             public DateTime CreatedDate { get; set; }
             public DateTime UpdatedDate { get; set; }
 
             public Guid AuthorId { get; set; }
-            public ApplicationUser? Author { get; set; }
+            public UserProfile? Author { get; set; }
 
             [ValidateNever]
             public List<Comment>? Comments { get; set; }

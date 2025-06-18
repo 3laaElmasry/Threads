@@ -1,4 +1,4 @@
-﻿
+﻿/*
 
 namespace Threads.BusinessLogicLayer.Models
 {
@@ -19,3 +19,5 @@ namespace Threads.BusinessLogicLayer.Models
         public string Token { get; set; } = string.Empty;
     }
 }
+
+*/

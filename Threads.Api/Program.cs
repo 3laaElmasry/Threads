@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Threads.BusinessLogicLayer.ServiceContracts;
 using Threads.BusinessLogicLayer.Services;
@@ -7,17 +6,15 @@ using Threads.DataAccessLayer.Data;
 using Threads.DataAccessLayer.Data.Entities;
 using Threads.DataAccessLayer.Repository;
 using Threads.DataAccessLayer.RepositoryContracts;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Threads.BusinessLogicLayer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); // 👈 Enables Swagger
+builder.Services.AddSwaggerGen(); // 👈 Enables SwaggerB
 
 //ConncetionString 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -25,18 +22,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"));
 });
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-{
-    options.Password.RequiredLength = 5;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireDigit = false;
-    options.Password.RequiredUniqueChars = 1;
-    options.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders()
-.AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
-.AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
+//builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+//{
+//    options.Password.RequiredLength = 5;
+//    options.Password.RequireUppercase = false;
+//    options.Password.RequireLowercase = true;
+//    options.Password.RequireDigit = false;
+//    options.Password.RequiredUniqueChars = 1;
+//    options.Password.RequireNonAlphanumeric = false;
+//}).AddEntityFrameworkStores<ApplicationDbContext>()
+//.AddDefaultTokenProviders()
+//.AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
+//.AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
+
+
+
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
@@ -46,6 +46,22 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 builder.Services.AddScoped<ICommentService, CommentService>();
 
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = "https://well-panda-46.clerk.accounts.dev";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "https://well-panda-46.clerk.accounts.dev",
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true
+        };
+    });
+
+/*
 //Map JWT Keys to JWTClass Popreties
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
@@ -73,6 +89,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!))
     };
 });
+*/
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@ using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
 {
-    public class PostRequest
+    public class TweetRequest
     {
 
         [Required(ErrorMessage = "Post Description cann't be null")]

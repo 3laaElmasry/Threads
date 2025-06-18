@@ -1,4 +1,4 @@
-﻿
+﻿/*
 
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -13,3 +13,5 @@ namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
         public string Password { get; set; } = string.Empty;
     }
 }
+
+*/

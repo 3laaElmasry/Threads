@@ -12,8 +12,8 @@ namespace Threads.BusinessLogicLayer.DTO.CommentDTO
             return new Comment
             {
                 CommentId = Guid.NewGuid(),
-                AuthorId = Guid.Parse(comment.AuthorId!),
-                PostId = Guid.Parse(comment.PostId!),
+                AuthorId = comment.AuthorId!,
+                TweetId = Guid.Parse(comment.PostId!),
                 ParentId = String.IsNullOrEmpty(comment.ParentId)? null : Guid.Parse(comment.ParentId),
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now,
@@ -29,7 +29,7 @@ namespace Threads.BusinessLogicLayer.DTO.CommentDTO
                 Author = comment.Author?.ToRegisterResponse(),
                 AuthorId = comment.AuthorId.ToString(),
                 CommentId = comment.CommentId.ToString(),
-                PostId = comment.PostId.ToString(),
+                PostId = comment.TweetId.ToString(),
                 ParentId = comment.ParentId.ToString(),
                 CreatedDate = comment.CreatedDate,
                 UpdatedDate = comment.UpdatedDate,

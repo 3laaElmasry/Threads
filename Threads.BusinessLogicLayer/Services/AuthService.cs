@@ -1,5 +1,5 @@
 ﻿
-
+/*
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -17,13 +17,13 @@ namespace Threads.BusinessLogicLayer.Services
     public class AuthService : IAuthService
     {
         private readonly JWT _jwt;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<UserProfile> _userManager;
+        private readonly SignInManager<UserProfile> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
         public AuthService(IOptions<JWT> jwt,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<UserProfile> userManager,
+            SignInManager<UserProfile> signInManager,
             RoleManager<ApplicationRole> roleManager)
         {
             _jwt = jwt.Value;
@@ -44,7 +44,7 @@ namespace Threads.BusinessLogicLayer.Services
                 return new AuthModel { Message = "User Name is Already Exist", IsAuthonticated = false };
             }
 
-            ApplicationUser applicationUser = new ApplicationUser
+            UserProfile applicationUser = new UserProfile
             {
                 UserName = user.UserName,
                 Email = user.Email,
@@ -114,7 +114,7 @@ namespace Threads.BusinessLogicLayer.Services
             return authModel;
         }
 
-        public async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
+        public async Task<JwtSecurityToken> CreateJwtToken(UserProfile user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
@@ -162,3 +162,4 @@ namespace Threads.BusinessLogicLayer.Services
 
     }
 }
+*/

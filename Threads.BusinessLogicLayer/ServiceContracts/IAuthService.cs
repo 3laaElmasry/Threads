@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using System.IdentityModel.Tokens.Jwt;
 using Threads.BusinessLogicLayer.DTO.RegisterDTO;
 using Threads.BusinessLogicLayer.Models;
@@ -8,10 +8,11 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
 {
     public interface IAuthService
     {
-        Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user);
+        Task<JwtSecurityToken> CreateJwtToken(UserProfile user);
 
         Task<AuthModel> RegisterAsync(Register user);
 
         Task<AuthModel> GetJwtTokenAsync(UserLoginModel user);
     }
 }
+*/

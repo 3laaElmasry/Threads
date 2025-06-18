@@ -6,7 +6,7 @@ using Threads.DataAccessLayer.RepositoryContracts;
 
 namespace Threads.DataAccessLayer.Repository
 {
-    public class PostRepository : Repository<Post>, IPostRepository
+    public class PostRepository : Repository<Tweet>, IPostRepository
     {
         public PostRepository(ApplicationDbContext db) : base(db)
         {

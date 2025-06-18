@@ -15,15 +15,15 @@ namespace Threads.DataAccessLayer.Data.Entities
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        public Guid AuthorId { get; set; }
+        public string AuthorId { get; set; } = string.Empty;
 
-        public Guid PostId { get; set; }
+        public Guid TweetId { get; set; }
 
         public Guid? ParentId { get; set; }
 
         public int Replys { get; set; } = 0;
-        public ApplicationUser? Author { get; set; }
-        public Post? Post { get; set; }
+        public UserProfile? Author { get; set; }
+        public Tweet? Tweet { get; set; }
         public Comment? Parent { get; set; }
 
 

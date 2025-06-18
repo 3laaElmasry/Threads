@@ -21,9 +21,9 @@ namespace Threads.Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(PostResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(TweetResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PostCreate(PostRequest postDTO)
+        public async Task<ActionResult> PostCreate(TweetRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             postDTO.AuthorId = userId!;
@@ -33,9 +33,9 @@ namespace Threads.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TweetResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PostResponse>> GetPostById(string id)
+        public async Task<ActionResult<TweetResponse>> GetPostById(string id)
         {
             var post = await _postService.Get(id);
 
@@ -48,10 +48,10 @@ namespace Threads.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TweetResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<PostResponse>> PutPost(string id, PostRequest postRequest)
+        public async Task<ActionResult<TweetResponse>> PutPost(string id, TweetRequest postRequest)
         {
             var postFromDB = await _postService.Get(id);
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -88,10 +88,10 @@ namespace Threads.Api.Controllers
 
         [HttpGet("getall")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(List<PostResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<TweetResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
-        public async Task<ActionResult<List<PostResponse>>> GetAll()
+        public async Task<ActionResult<List<TweetResponse>>> GetAll()
         {
             var postsFrombDb = await _postService.GetAllPosts();
             if (postsFrombDb.Count() <= 0)

@@ -1,4 +1,4 @@
-﻿namespace Threads.BusinessLogicLayer.Models
+﻿/*namespace Threads.BusinessLogicLayer.Models
 {
     public class JWT
     {
@@ -8,3 +8,4 @@
         public int DurationInDays { get; set; }
     }
 }
+*/

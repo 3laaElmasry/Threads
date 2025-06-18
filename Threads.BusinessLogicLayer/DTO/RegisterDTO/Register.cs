@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
 {
@@ -39,3 +39,4 @@ namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }
+*/
