@@ -14,7 +14,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostDTO
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        public Guid AuthorId { get; set; }
+        public string AuthorId { get; set; } = string.Empty;
         public UserResponse? Author { get; set; }
         public List<CommentResponse>? Comments { get; set; }
     }

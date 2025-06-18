@@ -14,7 +14,7 @@ namespace Threads.BusinessLogicLayer.DTO.PostExtenstions
                 Text = postRegisterDTO.Text,
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now,
-                AuthorId = Guid.Parse(postRegisterDTO.AuthorId),
+                AuthorId = postRegisterDTO.AuthorId,
                 TweetId = Guid.NewGuid(),
             };
         }

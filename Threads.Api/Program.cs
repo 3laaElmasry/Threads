@@ -52,6 +52,7 @@ builder.Services.AddScoped<IClerkUserService, ClerkUserService>();
 builder.Services.AddSingleton(_ =>
     new ClerkBackendApi(bearerAuth: builder.Configuration["Clerk:SecretKey"]));
 
+builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
