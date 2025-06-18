@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Threads.BusinessLogicLayer.DTO.CommentDTO;
 using Threads.BusinessLogicLayer.DTO.PostDTO;
 using Threads.BusinessLogicLayer.ServiceContracts;
+using Threads.BusinessLogicLayer.Services;
 using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.Api.Controllers
@@ -15,11 +16,17 @@ namespace Threads.Api.Controllers
     {
         private readonly ICommentService _commentService;
         private readonly IPostService _postService;
+        private readonly IClerkUserService _clerkService;
+        private readonly IUserProfileService _userProfileService;
 
-        public CommentController(ICommentService commentService, IPostService postService)
+        public CommentController(ICommentService commentService, IPostService postService,
+            IClerkUserService userService,
+            IUserProfileService userProfileService)
         {
             _commentService = commentService;
             _postService = postService;
+            _clerkService = userService;
+            _userProfileService = userProfileService;
         }
 
         [HttpGet("{postId}")]
@@ -52,8 +59,17 @@ namespace Threads.Api.Controllers
                 return NotFound();
             }
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
             commentRequest.AuthorId = userId;
+
+            if (!await _userProfileService.IsExist(userId!))
+            {
+                var user = await _clerkService.GetUserAsync(userId!);
+
+                if (user is not null)
+                {
+                    await _userProfileService.Add(user);
+                }
+            }
 
             var addedComment = await _commentService.CreateComment(commentRequest);
             return CreatedAtAction(nameof(GetCommentById), new { id = addedComment?.CommentId }, addedComment);

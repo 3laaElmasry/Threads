@@ -14,12 +14,15 @@ namespace Threads.Api.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
-        private readonly IClerkUserService _userService;
+        private readonly IClerkUserService _clerkService;
+        private readonly IUserProfileService _userProfileService;
 
-        public PostController(IPostService postService, IClerkUserService userService)
+        public PostController(IPostService postService, IClerkUserService userService,
+            IUserProfileService userProfileService)
         {
             _postService = postService;
-            _userService = userService;
+            _clerkService = userService;
+            _userProfileService = userProfileService;
         }
 
         [HttpPost]
@@ -28,8 +31,17 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult> PostCreate(TweetRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
             postDTO.AuthorId = userId!;
+
+            if(!await _userProfileService.IsExist(userId!))
+            {
+                var user = await _clerkService.GetUserAsync(userId!);
+
+                if(user is not null)
+                {
+                    await _userProfileService.Add(user);  
+                }
+            }
 
             var postFromDb = await _postService.AddPost(postDTO);
             return CreatedAtAction(nameof(GetPostById), new { id = postFromDb.PostId }, postFromDb);
