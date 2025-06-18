@@ -30,5 +30,10 @@ namespace Threads.BusinessLogicLayer.Services
                 .GetAsync(u => u.UserId == userProfileId);
             return userFromDb;
         }
+
+        public async Task<bool> IsExist(string userProfileId)
+        {
+            return await GetUser(userProfileId) != null;
+        }
     }
 }

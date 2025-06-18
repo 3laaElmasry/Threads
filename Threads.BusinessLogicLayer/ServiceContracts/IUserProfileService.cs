@@ -8,5 +8,7 @@ namespace Threads.BusinessLogicLayer.ServiceContracts
     {
         Task<UserProfile?> Add(User user);
         Task<UserProfile?> GetUser(string userProfileId);
+
+        Task<bool> IsExist(string userProfileId);
     }
 }
