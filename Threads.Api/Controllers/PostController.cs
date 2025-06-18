@@ -14,10 +14,12 @@ namespace Threads.Api.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly IClerkUserService _userService;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, IClerkUserService userService)
         {
             _postService = postService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -26,8 +28,6 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult> PostCreate(TweetRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-
 
             postDTO.AuthorId = userId!;
 

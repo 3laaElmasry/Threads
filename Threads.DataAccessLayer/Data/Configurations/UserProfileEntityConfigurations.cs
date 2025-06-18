@@ -9,7 +9,7 @@ namespace Threads.DataAccessLayer.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
-            builder.HasKey(u => u.ClerkUserId);
+            builder.HasKey(u => u.UserId);
             builder.Property(u => u.DisplayName)
                 .HasMaxLength(50)
                 .IsRequired(false);

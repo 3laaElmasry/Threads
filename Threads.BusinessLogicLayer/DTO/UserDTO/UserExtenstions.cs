@@ -10,7 +10,7 @@ namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
         {
             return new UserResponse
             {
-                UserId = user.ClerkUserId.ToString(),
+                UserId = user.UserId.ToString(),
                 DisplayName = user.DisplayName ?? "",
                 ImgUrl = user.ImgUrl,
 
@@ -19,11 +19,13 @@ namespace Threads.BusinessLogicLayer.DTO.RegisterDTO
 
         public static UserProfile ToUserProfile(this User user)
         {
+            var userEmail = user.EmailAddresses?.FirstOrDefault()?.EmailAddressValue;
             return new UserProfile
             {
-                ClerkUserId = user.Id!,
+                UserId = user.Id!,
                 DisplayName = user.Username,
                 ImgUrl = user.ImageUrl,
+                Email = userEmail
             };
         }
     }

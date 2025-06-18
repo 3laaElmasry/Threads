@@ -6,7 +6,7 @@ namespace Threads.DataAccessLayer.Data.Entities
 {
     public class UserProfile
     {
-        public string ClerkUserId { get; set; } = string.Empty;  // Match JWT's NameIdentifier
+        public string UserId { get; set; } = string.Empty;  // Match JWT's NameIdentifier
         public string? DisplayName { get; set; }
         public string? ImgUrl { get; set; }
 
