@@ -25,7 +25,7 @@ namespace Threads.DataAccessLayer.Data.Configurations
             // Define relationship: Post belongs to an Author (User)
             modelBuilder
                 .HasOne(p => p.Author)
-                .WithMany(u => u.Tweets)
+                .WithMany()
                 .HasForeignKey(p => p.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade); 
         }

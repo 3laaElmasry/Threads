@@ -43,7 +43,7 @@ namespace Threads.DataAccessLayer.Data.Configurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.HasOne(c => c.Author)
-                .WithMany(u => u.comments)
+                .WithMany()
                 .HasForeignKey(c => c.AuthorId)
                 .IsRequired();
 
