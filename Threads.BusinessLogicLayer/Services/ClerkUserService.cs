@@ -1,6 +1,8 @@
 ﻿
 using Clerk.BackendAPI;
 using Clerk.BackendAPI.Models.Components;
+using Threads.BusinessLogicLayer.DTO.RegisterDTO;
+using Threads.DataAccessLayer.Data.Entities;
 
 namespace Threads.BusinessLogicLayer.Services
 {
@@ -20,6 +22,22 @@ namespace Threads.BusinessLogicLayer.Services
                 return null;
             return res.User;
         }
+
+         async Task<List<UserProfile>> IClerkUserService.GetUsersByUsernameAsync(string username)
+        {
+            var usersResponse = await _clerk.Users.ListAsync();
+
+            var clerkUsers = usersResponse.UserList;
+
+            if (clerkUsers is null)
+            {
+                return new List<UserProfile>();
+            }
+
+
+            return  clerkUsers.Where(u => u.Username == username).Select(u => u.ToUserProfile()).ToList();
+        }
+
     }
 
 }
