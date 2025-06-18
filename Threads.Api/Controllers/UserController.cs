@@ -40,7 +40,7 @@ namespace Threads.Api.Controllers
             return user.ToUserProfile();
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserProfile))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserProfile>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize]
         [HttpGet("{userName}")]
