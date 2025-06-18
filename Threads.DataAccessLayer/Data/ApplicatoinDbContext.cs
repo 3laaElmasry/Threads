@@ -15,6 +15,8 @@ namespace Threads.DataAccessLayer.Data
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<UserProfile> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TweetEntityConfiguraion).Assembly);

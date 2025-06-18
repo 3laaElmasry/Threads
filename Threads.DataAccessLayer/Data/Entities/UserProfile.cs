@@ -9,9 +9,10 @@ namespace Threads.DataAccessLayer.Data.Entities
         public string ClerkUserId { get; set; } = string.Empty;  // Match JWT's NameIdentifier
         public string? DisplayName { get; set; }
         public string? ImgUrl { get; set; }
-        public DateTime CreatedAt { get; set; }
 
-        public IEnumerable<Tweet> Tweets { get; set; } = new List<Tweet>();
-        public IEnumerable<Comment> comments { get; set; } = new List<Comment>();
+        public string? Email { get; set; }
+
+        //public IEnumerable<Tweet> Tweets { get; set; } = new List<Tweet>();
+        //public IEnumerable<Comment> comments { get; set; } = new List<Comment>();
     }
 }

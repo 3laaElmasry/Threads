@@ -26,6 +26,9 @@ namespace Threads.Api.Controllers
         public async Task<ActionResult> PostCreate(TweetRequest postDTO)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+
+
             postDTO.AuthorId = userId!;
 
             var postFromDb = await _postService.AddPost(postDTO);
